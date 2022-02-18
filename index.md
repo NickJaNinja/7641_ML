@@ -1,11 +1,13 @@
-# Proposal 
+# CS 7641 Course Project
 
-## Introduction
+## Proposal 
 
-## Problem Statement
+### Introduction
 
-## Methods
+### Problem Statement
 
-## Discussion
+### Methods
 
-## Timeline
+### Discussion
+
+### Timeline
