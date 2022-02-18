@@ -1,13 +1,11 @@
-# CS7641 Course Project
+# Proposal 
 
-## Proposal 
+## Introduction
 
-### Introduction
+## Problem Statement
 
-### Problem Statement
+## Methods
 
-### Methods
+## Discussion
 
-### Discussion
-
-### Timeline
+## Timeline
