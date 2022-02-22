@@ -3,6 +3,8 @@
 
 ## Proposal 
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VoxGg14EXxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### Introduction
 
 According to the WHO, there are approximately 1.3 million people losing their life each year due to road traffic crashes<sup>[4]</sup>. New data released by the USDOT shows that around 20,160 people died in motor vehicle crashes in the first half of 2021<sup>[5]</sup>. Distracted driving is one of the leading factors that cause road traffic crashes. Many researchers are dedicated to detecting distracted behaviors by analyzing image features, hoping to provide more preventive measures. The studies would also benefit the auto-driving industry because the current self-driving cars still require the drivers’ full attention to be able to take back control of the wheels when necessary.
