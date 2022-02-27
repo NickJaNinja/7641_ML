@@ -3,11 +3,8 @@
 from abc import ABC, abstractmethod
 
 class Preprocessor(ABC):
-    def __init__(self, data):
-        self.data = data
-
     @abstractmethod
-    def get_preprocessed_data(self):
+    def get_preprocessed_data(self, data):
         pass
 
 # TODO: add new Preprocessors classes like mini-max normalization as in

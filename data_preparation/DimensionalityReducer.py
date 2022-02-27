@@ -9,19 +9,25 @@ from sklearn import decomposition
 # new_data = pca.get_reduced_data()
 
 class DimensionalityReducer(ABC):
-    def __init__(self, data):
-        self.data = data
-
     @abstractmethod
     def get_reduced_data(self):
         pass
 
 
-class PCA(DimensionalityReducer):
-    def __init__(self, data, n_components):
-        self.data = data
+class Sklearn_PCA(DimensionalityReducer):
+    def __init__(self, n_components):
+        """
+        Args: 
+            data: NxD array, where each image is flattened into a 1-Dimensional vector
+            n_components (int): Number of components/features for PCA to reduce to
+        """
         self.n_components = n_components
 
-    def get_reduced_data(self):
+    def get_reduced_data(self, data):
+        """Performs PCA on the data.
+        Sklean's PCA assumes the data is size NxD, where N is the number of images,
+        and D is the dimension of the *flattened* image.
+        """
         pca = decomposition.PCA(self.n_components)
-        return pca.fit(self.data)
+        pca.fit(data)
+        return pca.transform(data)
