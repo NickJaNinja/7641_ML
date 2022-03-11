@@ -51,7 +51,7 @@ def open_image_as_np(path_to_img: str):
     Returns:
         np.array: Opened image
     """
-    img = Image.open(path_to_img)
+    img = Image.open(path_to_img).convert("RGB")
     img_as_np = np.asarray(img)
     return img_as_np
 
