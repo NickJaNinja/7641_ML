@@ -1,12 +1,9 @@
 # Main file for the whole workflow of this project. This file will manipulate the data,
 # train/cluster features, and analyze potential results.
 
-from data_preparation.DataHelpers import *
-from data_preparation.FeatureExtractor import *
-from data_preparation.Preprocessor import *
-from data_preparation.DimensionalityReducer import *
-from learning.Classifier import *
-from analysis.Evaluation import *
+from data_preparation import DataHelpers, FeatureExtractor, Preprocessor, DimensionalityReducer
+from data_preparation.HOG import *
+from data_preparation.Sklearn_PCA import *
 
 def prepare_data(data,
                  feature_extractor: FeatureExtractor = None, 
@@ -21,15 +18,13 @@ def prepare_data(data,
 
     return data
 
+
 if __name__ == '__main__':
-    train_path = get_training_image_path()
-    test_path  = get_test_image_path()
+    training_batches_as_paths = DataHelpers.generate_training_batches(num_batches=350)
+    test_batch = DataHelpers.open_training_batch(training_batches_as_paths[0])
 
-    data = None
-
-    feature_extractor = None
+    feature_extractor = HOG(orientations=4, pixels_per_cell=(32,32))
     preprocessor = None
-    dimensionality_reducer = None
-    # dimensionality_reducer = Sklearn_PCA(n_components=100)
+    dimensionality_reducer = Sklearn_PCA(n_components=50)
 
-    data_prepared = prepare_data(data, feature_extractor, preprocessor, dimensionality_reducer)
+    data_prepared = prepare_data(test_batch, feature_extractor, preprocessor, dimensionality_reducer)
