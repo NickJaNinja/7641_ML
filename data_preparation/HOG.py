@@ -8,11 +8,27 @@ class HOG(FeatureExtractor):
         self.orientations = orientations
         self.pixels_per_cell = pixels_per_cell
 
-    def get_features(self, data):
+    def get_features(self, data, visualize=False):
+        '''
+        Args:
+            data: N x H x W x D, where N is the number of images
+        
+        Returns: a tuple of two numpy arrays: (extracted_features, images_after_hog)
+            
+        '''
         features = []
+        hog_images = []
+        
         for image in data:
             # Using channel_axis param requires scikit-image version 0.19.2
-            flattened_hog = hog(image, self.orientations,
-                    self.pixels_per_cell, channel_axis=-1)
-            features.append(flattened_hog)
-        return np.array(features)
+            flattened_hog = hog(image, self.orientations, self.pixels_per_cell,
+                                cells_per_block=(1, 1), visualize=visualize, channel_axis=-1)
+
+            features.append(flattened_hog[0])
+            if visualize:
+                hog_images.append(flattened_hog[1])
+    
+        if visualize:
+            return (np.array(features),np.array(hog_images))
+        else:
+            return np.array(features)
