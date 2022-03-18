@@ -3,11 +3,12 @@
 from abc import ABC, abstractmethod
 
 class Classifier(ABC):
-    def __init__(self, data):
-        self.data = data
+    @abstractmethod
+    def train(self, x_train, y_train):
+        pass
 
     @abstractmethod
-    def classify(self):
+    def predict(self, x_predict):
         pass
 
 # TODO implement classifiers like k-Nearest-Neighbors (KNN),

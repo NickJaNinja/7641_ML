@@ -11,6 +11,7 @@ class HOG(FeatureExtractor):
     def get_features(self, data):
         features = []
         for image in data:
+            # Using channel_axis param requires scikit-image version 0.19.2
             flattened_hog = hog(image, self.orientations,
                     self.pixels_per_cell, channel_axis=-1)
             features.append(flattened_hog)
