@@ -24,9 +24,11 @@ class HOG(FeatureExtractor):
             flattened_hog = hog(image, self.orientations, self.pixels_per_cell,
                                 cells_per_block=(1, 1), visualize=visualize, channel_axis=-1)
 
-            features.append(flattened_hog[0])
             if visualize:
+                features.append(flattened_hog[0])
                 hog_images.append(flattened_hog[1])
+            else:
+                features.append(flattened_hog)
     
         if visualize:
             return (np.array(features),np.array(hog_images))
