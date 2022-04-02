@@ -1,0 +1,11 @@
+name: cs7641proj
+channels:
+- defaults
+- pytorch
+dependencies:
+- jupyter
+- matplotlib
+- pip
+- python
+- scipy
+- opencv
