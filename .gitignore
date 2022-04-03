@@ -1,6 +1,12 @@
 # Image data
 data/
 
+# Fully trained models
+models/
+
+# Test output
+output/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

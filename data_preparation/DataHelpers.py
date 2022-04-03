@@ -2,6 +2,7 @@
 
 import os, os.path
 import csv
+import pickle
 import random
 from PIL import Image
 import numpy as np
@@ -9,6 +10,7 @@ import numpy as np
 DATA_DIR = 'data/'
 TRAIN_DIR = DATA_DIR + 'train/'
 TEST_DIR = DATA_DIR + 'test/'
+MODEL_DIR = 'models/'
 OUTPUT_DIR = 'output/'
 NUM_CLASSES = 10
 
@@ -40,13 +42,16 @@ def get_training_image_paths_by_class():
 def get_training_image_paths_flat():
     return [f'{c}{i}' for c in _get_training_class_paths() for i in os.listdir(c)]
 
-def _get_test_image_paths():
+def _get_test_image_names():
+    return [img_name for img_name in os.listdir(TEST_DIR)]
+
+def _get_test_image_paths(image_names):
     """Gets the path to all test images
 
     Returns:
         str: Path to the directory
     """
-    return [f'{TEST_DIR}{c}' for c in os.listdir(TEST_DIR)]
+    return [f'{TEST_DIR}{img_name}' for img_name in image_names]
 
 def get_class_from_path(path):
     return int(path.split('/')[2][1:])
@@ -93,7 +98,28 @@ def generate_training_batches(num_batches=200):
     batch_labels = [np.array([get_class_from_path(p) for p in b]) for b in batch_paths]
     return batch_paths, batch_labels
 
-def open_training_batch(image_paths):
+def _get_name_from_path(path):
+    return path.split('/')[2]
+
+def generate_testing_batches(num_batches=20):
+    """Divides training data into batches.
+
+    Returns:
+        list[list[str]]: Batched image paths
+        list[list[int]]: Label for each corresponding image
+    """
+    test_image_names = _get_test_image_names()
+    image_paths = _get_test_image_paths(test_image_names)
+    _get_name_from_path(image_paths[0])
+    num_images = len(image_paths)
+    random.shuffle(image_paths)
+    batch = np.linspace(0, num_images, num_batches+1, dtype=int)
+
+    batch_paths = [image_paths[batch[i]:batch[i+1]] for i in range(num_batches)]
+    batch_names = [np.array([_get_name_from_path(p) for p in b]) for b in batch_paths]
+    return batch_names, batch_paths
+
+def open_batch(image_paths):
     """Given a batch of paths, opens the whole batch of images and returns them.
 
     Returns:
@@ -109,9 +135,9 @@ def open_training_batch(image_paths):
 def get_test_data():
     """
     """
-    test_image_paths = _get_test_image_paths()
-    test_images = open_training_batch(test_image_paths)
-    return (test_image_paths, test_images)
+    test_image_names = _get_test_image_names()
+    test_image_paths = _get_test_image_paths(test_image_names)
+    return (test_image_names, test_image_paths)
 
 def output_to_csv(filename, image_names, y_predicted):
     """Produces an output file for the given image names and predicted values.
@@ -127,7 +153,7 @@ def output_to_csv(filename, image_names, y_predicted):
         os.makedirs(OUTPUT_DIR)
     
     # Change filename if filename already exists to avoid overwriting output
-    output_path = f'{OUTPUT_DIR}{filename}'
+    output_path = f'{OUTPUT_DIR}{filename}.csv'
     counter = 1
     while os.path.exists(output_path):
         output_path = f'{OUTPUT_DIR}{filename}({counter})'
@@ -143,3 +169,14 @@ def output_to_csv(filename, image_names, y_predicted):
             data = list(map(str, y_predicted[image_idx]))
             row = name + data
             writer.writerow(row)
+
+def save_model(model, model_name='model'):
+    if not os.path.exists(MODEL_DIR):
+        os.makedirs(MODEL_DIR)
+
+    with open(f'{MODEL_DIR}{model_name}.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+def load_model(filename):
+    with open(f'{MODEL_DIR}{filename}.pkl', 'rb') as f:
+        return pickle.load(f)
