@@ -1,14 +1,13 @@
 from data_preparation.FeatureExtractor import *
-from sklearn.cluster import KMeans
 from data_preparation.BOW import BOW
 
 import numpy as np
 import cv2
 
-class SIFT(FeatureExtractor):
+class ORB(FeatureExtractor):
     def __init__(self, N=80):
         self.kmeans_clusters = N
-        self.extractor = cv2.xfeatures2d.SIFT_create()
+        self.extractor = cv2.ORB_create()
 
     def get_features_single(self, image, visualize=False):
         keypoints, descriptors = self.extractor.detectAndCompute(image, None)
