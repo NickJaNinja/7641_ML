@@ -39,7 +39,7 @@ After HOG, the number of features of each image was reduced from 307,200 to 9,60
 
 SIFT is another feature extraction method. It picks out keypoints in an image by searching for local extrema after computing the difference of gaussian of the input image. Once keypoints are selected, it creates descriptors based on 8-bin orientation histograms of the keypoint neighborhood grid.
 
-![image](https://user-images.githubusercontent.com/33321452/161834609-b703024e-182a-49f9-b911-e208c025ecc6.png)
+![SIFT](https://user-images.githubusercontent.com/33321452/161837472-39a9d082-d5f1-455a-b7e2-55d634e43d0c.png)
 
 Each descriptor has 128 values. However, the number of keypoints each image has is different. We use K-means to cluster the descriptors and convert them into Bag of Words representations. Finally we feed them into SVM for classification.
 
