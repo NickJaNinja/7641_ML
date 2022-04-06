@@ -13,6 +13,16 @@ According to the WHO, there are approximately 1.3 million people losing their li
 
 Given a set of images of drivers from [Kaggle](https://www.kaggle.com/c/state-farm-distracted-driver-detection), can we correctly classify each image as an accurate level of safety? It might be relatively easier to classify two completely different activities, such as texting and drinking water. However, touching hair and making phone calls could look very similar sometimes. Then what could we do to accurately differentiate similar gestures? What are the metrics we will use to evaluate the accuracy and confidence level? Last but not least, can we improve the computational efficiency relative to the current studies?
 
+## Methods
+
+We would like to approach this problem in three ways. First, we start with simpler methods including SVM and KNN. We then apply HOG, SURF to extract features from these images and classify or cluster based on them. Finally, we would train on CNN models to automatically extract and learn features from the dataset.
+	
+### Unsupervised Learning
+We will perform Principal Component Analysis on our data to gain insight of the datasets features and potentially reduce the dimensionality of our data. Given that our data is 640x480 pixel images, dimensionality reduction can improve training computation time while retaining most of the information<sup>[3]</sup>. Clustering algorithms like K-means will also give us insight on the dataset.
+
+### Supervised Learning
+The nature of our data is unimodal and our intuition tells us that the best results should come from models that are best able to understand human gestures. Among the many human activity recognition techniques, we will focus on the ones better for learning human poses and interactions with objects<sup>[1]</sup>. We will pre-process data and train on popular CNN architectures like VGG, ResNet.
+
 ## Data Collection
 
 Data was collected through Kaggle. We are given driver images, each taken in a car with a driver doing something, for example: texting, eating, etc. Our goal is to predict the likelihood of what the driver is doing in each image. 
@@ -67,16 +77,6 @@ The below plot shows the cumulative sum of explained variance for our dataset. T
 The tools used were scikit-learn and plotly.
 
 <img width="761" alt="PCA" src="https://user-images.githubusercontent.com/33321452/161834895-0e28fc2c-6ccd-4b54-9492-cf3685877c83.png">
-
-## Methods
-
-We would like to approach this problem in three ways. First, we start with simpler methods including SVM and KNN. We then apply HOG, SURF to extract features from these images and classify or cluster based on them. Finally, we would train on CNN models to automatically extract and learn features from the dataset.
-	
-### Unsupervised Learning
-We will perform Principal Component Analysis on our data to gain insight of the datasets features and potentially reduce the dimensionality of our data. Given that our data is 640x480 pixel images, dimensionality reduction can improve training computation time while retaining most of the information<sup>[3]</sup>. Clustering algorithms like K-means will also give us insight on the dataset.
-
-### Supervised Learning
-The nature of our data is unimodal and our intuition tells us that the best results should come from models that are best able to understand human gestures. Among the many human activity recognition techniques, we will focus on the ones better for learning human poses and interactions with objects<sup>[1]</sup>. We will pre-process data and train on popular CNN architectures like VGG, ResNet.
 
 ## Evaluation
 
