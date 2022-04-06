@@ -86,6 +86,24 @@ The Kaggle competition-defined loss is as below, where N is the number of images
 
 The first supervised method we have results for is from support-vector machines (SVM). We used Sklearn for this, which handles multiclass classification using one-vs-one as opposed to one-vs-rest. Although SVM is known for robustness, training the classifier on our entire unprocessed dataset was infeasible due to its size. Therefore, we used HOG to compress the data before training this classifier. Our results from this method gave us a Kaggle log loss of 1.68050. This score of our baseline method puts us at 725th place of the competition, but we’re hoping our more sophisticated convolutional neural nets (CNNs) will see a boost in our rating.
 
+Besides the internal Kaggle evaluation, we used macro-average-F1-score as a metric to evaluate our SVM model. Due to the huge size of the dataset, we evaluated our model with gradually increasing numbers of training and testing data points. First, we trained on 1% of the dataset and tested on another 1% of the dataset, the results are as follows:
+
+![f1_1_1](https://user-images.githubusercontent.com/33321452/161892484-1f5518d5-3a80-463c-9c25-9204fdb49c4f.png)
+
+![f1_1_2](https://user-images.githubusercontent.com/33321452/161892500-2f9e442a-c1bb-48f6-9893-58a241bdd518.png)
+
+In this case, due to the small amount of data that was trained and tested, the final score is only around 55.39%. Let’s increase the numbers. 
+
+Finally, we trained on 10% of the dataset and tested on 10% dataset, the results are as follows:
+
+![f1_2_1](https://user-images.githubusercontent.com/33321452/161892542-ef2304e5-7736-4e35-9178-6f3d8b4a0c76.png)
+
+![f1_2_2](https://user-images.githubusercontent.com/33321452/161892554-79d7f323-6ef9-4757-8bdf-4089dd8e46ab.png)
+
+![f1_2_3](https://user-images.githubusercontent.com/33321452/161892571-e0e835a5-cb3b-4312-84dd-b62ed51ada60.png)
+
+The final score (96.93%) is high, which makes us aware that the data leakage problem is indeed occurring. The testing set likely contains images that are almost identical to the training set because of the quality of the given dataset. Thus, we will explore more reasonable evaluation methods other than Kaggle’s in the future.
+
 ## Discussion
 
 After obtaining valuable features by PCA, we will conduct several experiments based on the different methods mentioned above. The classification result will be soft, so we will take the max of our predicted output to get the most likely class, which is used to measure the F1 score and cross-entropy loss. 
