@@ -43,6 +43,20 @@ SIFT is another feature extraction method. It picks out keypoints in an image by
 
 Each descriptor has 128 values. However, the number of keypoints each image has is different. We use K-means to cluster the descriptors and convert them into Bag of Words representations. Finally we feed them into SVM for classification.
 
+### K-Means
+
+We use K-means on 2500 flattened images (250 from each category). We set k=10 to represent the 10 classes of driving safety in the dataset.  Because we took 250 from each group sequentially, we can easily visualize the result with the following histogram showing the number of images per cluster (as given by the k-means algorithm).
+
+![Kmeans_1](https://user-images.githubusercontent.com/33321452/161884313-dc115c73-0f1f-4fee-adcc-a3696341a1d9.png)
+
+Ideally, we would see 250 images in each cluster and we could verify the truth value of such a cluster by its image order. Unfortunately, the Kmeans clustering does a poor job at clustering each of the 10 categories. We see over-representation of cluster 3 with nearly twice the number of images as should be associated with this cluster. Clusters 1, 6, and 9 are under-represented each with less than 200 images associated with their respective clusters. This is not as informative as we would like, but because we are using labeled data, we can look further into why we are receiving these results.
+
+The following plot shows the mode cluster for each of the ten categories and further how many average images were assigned to each of the modes for each of the per 250 image category:
+
+![Kmeans_2](https://user-images.githubusercontent.com/33321452/161884322-353e6b6b-a2b9-442a-bbff-64735d7cd07c.png)
+
+To explain further, 9 of the 10 categories were most often assigned cluster 3. Cluster 7 was the mode of c0 (the case where the drivers were not distracted). Although it is interesting that our non-distracted class seems to be separated from our distracted class, it is important to note that on average, the number of images constituting the mode was only around 50 images for all modes (or around 20%). This means that with each group of 250 images, the images are not clearly associated with one cluster over another.  Overall, our finding could be improved by adding more images, or separating the k-means by color channel, but we would like to move on to more promising approaches.
+
 ## Dimensionality Reduction
 
 ### PCA - Principal Component Analysis
