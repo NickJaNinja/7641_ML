@@ -9,3 +9,5 @@ dependencies:
 - python
 - scipy
 - opencv
+- scikit-learn
+- scikit-image
