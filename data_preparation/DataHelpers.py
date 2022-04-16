@@ -3,13 +3,22 @@
 import os, os.path
 import csv
 import pickle
+from shutil import copytree, ignore_patterns
 import random
 from PIL import Image
 import numpy as np
 
 DATA_DIR = 'data/'
-TRAIN_DIR = DATA_DIR + 'train/'
-TEST_DIR = DATA_DIR + 'test/'
+COMPRESSED_DATA_DIR = 'compressed_' + DATA_DIR
+COMPRESSION_QUALITY = 20    # Out of 100
+
+if os.path.exists(COMPRESSED_DATA_DIR):
+    TRAIN_DIR = COMPRESSED_DATA_DIR + 'train/'
+    TEST_DIR = COMPRESSED_DATA_DIR + 'test/'
+else:
+    TRAIN_DIR = DATA_DIR + 'train/'
+    TEST_DIR = DATA_DIR + 'test/'
+
 MODEL_DIR = 'models/'
 OUTPUT_DIR = 'output/'
 NUM_CLASSES = 10
@@ -180,3 +189,31 @@ def save_model(model, model_name='model'):
 def load_model(filename):
     with open(f'{MODEL_DIR}{filename}.pkl', 'rb') as f:
         return pickle.load(f)
+
+def _compress_image(source_path, quality):
+    new_path = f'compressed_{source_path}'
+    
+    if not os.path.exists(new_path):
+        img = Image.open(source_path)
+        img.save(new_path, optimize=True, quality=COMPRESSION_QUALITY)
+
+def compress_images():
+    train_imgs_by_class = get_training_image_paths_by_class()
+    test_imgs = _get_test_image_paths(_get_test_image_names())
+
+    # Copy directories only
+    if not os.path.exists(COMPRESSED_DATA_DIR):
+        copytree(DATA_DIR, COMPRESSED_DATA_DIR, ignore=ignore_patterns('*.jpg', '*.csv'))
+    
+    # Copy and compress training images
+    for class_i in range(len(train_imgs_by_class)):
+        for path in train_imgs_by_class[class_i]:
+            _compress_image(path)
+
+    print('Training compressed.')
+
+    # Copy and compress testing images
+    for path in test_imgs:
+        _compress_image(path)
+
+    print('Compression complete.')

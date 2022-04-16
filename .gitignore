@@ -1,5 +1,6 @@
 # Image data
 data/
+compressed_data/
 
 # Fully trained models
 models/
