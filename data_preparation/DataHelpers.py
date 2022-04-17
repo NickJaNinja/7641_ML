@@ -219,5 +219,3 @@ def compress_images():
         _compress_image(path)
 
     print('Compression complete.')
-
-compress_images()
