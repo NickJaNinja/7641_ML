@@ -198,10 +198,6 @@ def _compress_image(source_path):
         new_size = tuple(s // RESIZE_IMAGE_RATIO for s in img.size)
         resized_img = img.resize(new_size)
         resized_img.save(new_path)
-        print(os.path.getsize(source_path))
-        print(os.path.getsize(new_path))
-        return
-        
 
 def compress_images():
     train_imgs_by_class = get_training_image_paths_by_class()
@@ -223,3 +219,5 @@ def compress_images():
         _compress_image(path)
 
     print('Compression complete.')
+
+compress_images()
