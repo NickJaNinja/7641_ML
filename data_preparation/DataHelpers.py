@@ -10,7 +10,7 @@ import numpy as np
 
 DATA_DIR = 'data/'
 COMPRESSED_DATA_DIR = 'compressed_' + DATA_DIR
-COMPRESSION_QUALITY = 20    # Out of 100
+RESIZE_IMAGE_RATIO = 2
 
 if os.path.exists(COMPRESSED_DATA_DIR):
     TRAIN_DIR = COMPRESSED_DATA_DIR + 'train/'
@@ -190,12 +190,18 @@ def load_model(filename):
     with open(f'{MODEL_DIR}{filename}.pkl', 'rb') as f:
         return pickle.load(f)
 
-def _compress_image(source_path, quality):
+def _compress_image(source_path):
     new_path = f'compressed_{source_path}'
     
     if not os.path.exists(new_path):
         img = Image.open(source_path)
-        img.save(new_path, optimize=True, quality=COMPRESSION_QUALITY)
+        new_size = tuple(s // RESIZE_IMAGE_RATIO for s in img.size)
+        resized_img = img.resize(new_size)
+        resized_img.save(new_path)
+        print(os.path.getsize(source_path))
+        print(os.path.getsize(new_path))
+        return
+        
 
 def compress_images():
     train_imgs_by_class = get_training_image_paths_by_class()
