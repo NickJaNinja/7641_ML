@@ -229,7 +229,7 @@ def create_driver_dictionary(filename):
             if driver not in driver_dict:
                 driver_dict[driver] = []
             else:
-                driver_dict[driver].append(os.path.join(_get_training_class_path(c), img))
+                driver_dict[driver].append(os.path.join(TRAIN_DIR, c, img))
     return driver_dict
 
 def generate_driver_split(driver_dict, num_test=3):
@@ -245,4 +245,4 @@ def generate_driver_split(driver_dict, num_test=3):
         else:
             train_paths += path
             train_labels += [get_class_from_path(p) for p in path]
-    return test_paths, test_labels, train_paths, train_labels
+    return train_paths, train_labels, test_paths, test_labels
