@@ -1,11 +1,12 @@
 from data_preparation.FeatureExtractor import *
+from sklearn.cluster import KMeans
 from data_preparation.BOW import BOW
 
 import numpy as np
 import cv2
 
 class ORB(FeatureExtractor):
-    def __init__(self, N=80):
+    def __init__(self, N=1000):
         self.kmeans_clusters = N
         self.extractor = cv2.ORB_create()
 
@@ -17,9 +18,11 @@ class ORB(FeatureExtractor):
         else:
             return descriptors
 
-    def get_features(self, data):
-        descriptors = [self.get_features_single(image) for image in data]
-        bag_of_descriptors = np.concatenate(descriptors)
-        bow = BOW(bag_of_descriptors, self.kmeans_clusters)
-        features = bow.predict(descriptors)
-        return features
+    def get_features(self, data, train=False, descriptors=None):
+        if descriptors is None:
+          descriptors = [self.get_features_single(image) for image in data]
+        if train:
+          bag_of_descriptors = np.concatenate(descriptors)
+          self.bow = BOW(bag_of_descriptors, self.kmeans_clusters)
+        features = self.bow.predict(descriptors)
+        return np.array(features)

@@ -219,3 +219,30 @@ def compress_images():
         _compress_image(path)
 
     print('Compression complete.')
+
+def create_driver_dictionary(filename):
+    driver_dict = {}
+    with open(filename) as f:
+        reader = csv.reader(f)
+        next(reader) # skip header
+        for driver, c, img in reader:
+            if driver not in driver_dict:
+                driver_dict[driver] = []
+            else:
+                driver_dict[driver].append(os.path.join(_get_training_class_path(c), img))
+    return driver_dict
+
+def generate_driver_split(driver_dict, num_test=3):
+    test_paths = []
+    train_paths = []
+    test_labels = []
+    train_labels = []
+    for i, d in enumerate(driver_dict):
+        path = driver_dict[d]
+        if i < num_test:
+            test_paths += path
+            test_labels += [get_class_from_path(p) for p in path]
+        else:
+            train_paths += path
+            train_labels += [get_class_from_path(p) for p in path]
+    return test_paths, test_labels, train_paths, train_labels
