@@ -3,7 +3,11 @@
 
 ## Proposal Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VoxGg14EXxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[Link to video](https://www.youtube.com/watch?v=VoxGg14EXxU&ab_channel=SarahGe)
+
+## Final Video
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/aCEr_zM4t5s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Introduction
 
